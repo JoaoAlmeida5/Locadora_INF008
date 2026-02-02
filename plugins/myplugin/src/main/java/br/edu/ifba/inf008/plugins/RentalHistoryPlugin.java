@@ -4,8 +4,6 @@ import br.edu.ifba.inf008.interfaces.ICore;
 import br.edu.ifba.inf008.interfaces.IPlugin;
 import br.edu.ifba.inf008.model.Rental;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -17,9 +15,7 @@ public class RentalHistoryPlugin implements IPlugin {
 
     @Override
     public boolean init(ICore core) {
-
         TableView<Rental> table = new TableView<>();
-
 
         TableColumn<Rental, String> colCliente = new TableColumn<>("Cliente");
         colCliente.setCellValueFactory(data ->
@@ -29,45 +25,32 @@ public class RentalHistoryPlugin implements IPlugin {
         colVeiculo.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getVehicle().getModel()));
 
-        TableColumn<Rental, String> colPlaca = new TableColumn<>("Placa");
-        colPlaca.setCellValueFactory(data ->
-                new SimpleStringProperty(data.getValue().getVehicle().getId()));
-
-        TableColumn<Rental, String> colData = new TableColumn<>("Data");
+        TableColumn<Rental, String> colData = new TableColumn<>("Início");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         colData.setCellValueFactory(data -> {
-            if (data.getValue().getStartDate() != null) {
-                return new SimpleStringProperty(data.getValue().getStartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
-            }
+            if(data.getValue().getStartDate() != null)
+                return new SimpleStringProperty(data.getValue().getStartDate().format(dtf));
             return new SimpleStringProperty("-");
         });
 
-        TableColumn<Rental, Double> colValor = new TableColumn<>("Valor Total");
+        TableColumn<Rental, Double> colValor = new TableColumn<>("Total (R$)");
         colValor.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
 
-        table.getColumns().addAll(colCliente, colVeiculo, colPlaca, colData, colValor);
+        table.getColumns().addAll(colCliente, colVeiculo, colData, colValor);
 
-
-        Button btnRefresh = new Button("🔄 Atualizar Lista");
-        btnRefresh.setOnAction(e -> {
-            table.getItems().clear();
+        try {
             if (core.getDataProvider() != null) {
                 table.getItems().addAll(core.getDataProvider().getAllRentals());
             }
-        });
-
-
-        VBox vbox = new VBox(10, btnRefresh, table);
-        vbox.setPadding(new Insets(10));
-
-
-        if (core.getDataProvider() != null) {
-            table.getItems().addAll(core.getDataProvider().getAllRentals());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
+        VBox content = new VBox(table);
+        Tab tab = new Tab("Histórico Geral");
+        tab.setContent(content);
 
-        Tab tab = new Tab("Histórico de Locações (att)", vbox);
         core.getUIController().addTab(tab);
-
         return true;
     }
 }
