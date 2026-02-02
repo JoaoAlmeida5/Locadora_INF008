@@ -1,6 +1,7 @@
 package br.edu.ifba.inf008.plugins.vehicle;
 
 import br.edu.ifba.inf008.interfaces.IVehiclePlugin;
+
 public class LuxuryPlugin implements IVehiclePlugin {
 
     @Override
