@@ -118,9 +118,66 @@ public class MariaDBDataProvider implements IDataProvider {
             e.printStackTrace();
         }
     }
-    @Override
-    public List<Rental> getAllRentals(){
-        return new ArrayList<>();
+
+    public List<Rental> getAllRentals() {
+        List<Rental> list = new ArrayList<>();
+        String sql = "SELECT r.rental_id, r.start_date, r.scheduled_end_date, r.actual_end_date, r.total_amount, " +
+                "c.customer_id, c.first_name, c.last_name, c.company_name, c.tax_id, c.email, c.phone, " +
+                "v.vehicle_id, v.license_plate, v.make, v.model, v.year, v.fuel_type, v.transmission, v.mileage, " +
+                "vt.type_name, vt.daily_rate " +
+                "FROM rentals r " +
+                "JOIN customers c ON r.customer_id = c.customer_id " +
+                "JOIN vehicles v ON r.vehicle_id = v.vehicle_id " +
+                "JOIN vehicle_types vt ON v.type_id = vt.type_id " +
+                "ORDER BY r.start_date DESC";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String displayName = (firstName != null) ? firstName + " " + (lastName != null ? lastName : "")
+                        : rs.getString("company_name");
+
+                Customer customer = new Customer(
+                        rs.getString("tax_id"),
+                        displayName,
+                        rs.getString("email"),
+                        rs.getString("phone")
+                );
+
+                Vehicle vehicle = new Vehicle(
+                        rs.getString("license_plate"),
+                        rs.getString("make"),
+                        rs.getString("model"),
+                        rs.getInt("year"),
+                        rs.getString("fuel_type"),
+                        rs.getString("transmission"),
+                        rs.getDouble("mileage"),
+                        rs.getDouble("daily_rate"),
+                        rs.getString("type_name")
+                );
+
+                Rental rental = new Rental();
+                rental.setCustomer(customer);
+                rental.setVehicle(vehicle);
+
+                Timestamp startTs = rs.getTimestamp("start_date");
+                Timestamp actualEndTs = rs.getTimestamp("actual_end_date");
+
+                if (startTs != null) rental.setStartDate(startTs.toLocalDateTime());
+                if (actualEndTs != null) rental.setEndDate(actualEndTs.toLocalDateTime());
+
+                rental.setTotalValue(rs.getDouble("total_amount"));
+
+                list.add(rental);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     @Override
