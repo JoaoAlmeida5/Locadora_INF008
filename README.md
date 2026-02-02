@@ -1,26 +1,28 @@
-# Build instructions:
+# Sistema de Gerenciamento de Locadora de Veículos (INF008)
 
-mvn install
+Sistema de Locação de veículos desenvolvido com caráter avaliativo referente a disciplina **INF008 - Programação Orientada a Objetos**. O projeto consiste em uma aplicação JavaFX para gestão de locações, utilizando uma arquitetura baseada em microkernel e plug-ins.
 
-# Execution instructions:
+## Tecnologias Utilizadas: 
+**Java 25.0.1**; **JavaFX** para interface gráfica; **MariaDB** via Docker para persistência de dados; **Maven** para gerenciamento de dependências e build.
 
-mvn exec:java -pl app
+## Arquitetura:
+O sistema utiliza um **Esqueleto de Microkernel** que permite a extensão de funcionalidades via plug-ins; **Plug-ins de Veículos:** Econômico, Compact, SUV, Luxo, VAN e Elétrico; **Plug-ins de Relatórios:** Relatório 1 (Gráfico de Combustível) e Relatório 2 (Tabela de Locações).
 
-# New plugin creation instructions:
+## Como Executar
 
-1. Create your plugin folder in "plugins"
-2. Add you new plugin submodule in main pom.xml:
+### Pré-requisitos
+- Docker e Docker Compose instalados.
+- Java JDK 25 instalado.
+- Maven instalado.
+  
+1. Configurar o Banco de Dados: No diretório raiz do projeto, execute o container do MariaDB:
+   
+`docker-compose up -d`
 
-    <modules>
-        <module>interfaces</module>
-        <module>app</module>
-        <module>plugins/myplugin</module>
-        ADD IT HERE
-    </modules>
-    
-3. Create your new plugin's pom.xml (check myplugin/pom.xml)
-4. Remember to use plugin's package conventions:
+2. Compilar o Projeto: Utilize o Maven para limpar e compilar todos os módulos:
 
-    br/edu/ifba/inf008/plugins/<YourPluginNameInCamelCase>.java
-    
-5. Run "mvn install" and "mvn exec:java -pl app"
+`mvn clean install`
+
+3. Executar a Aplicação: Navegue até o módulo principal (kernel) e execute:
+
+`mvn javafx:run`

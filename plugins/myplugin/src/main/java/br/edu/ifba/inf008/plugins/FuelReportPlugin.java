@@ -6,38 +6,41 @@ import br.edu.ifba.inf008.interfaces.IPlugin;
 import br.edu.ifba.inf008.model.Vehicle;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Tab;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FuelReportPlugin implements IPlugin {
 
     @Override
-    public boolean init(ICore core) { // <--- O Core chega por aqui
-        // -----------------------------------------------------------
-        // ERRO ESTAVA AQUI: Não declare "ICore core = ..." novamente.
-        // Use a variável do parâmetro diretamente.
-        // -----------------------------------------------------------
-
+    public boolean init(ICore core) {
         if (core == null) return false;
 
         PieChart pieChart = new PieChart();
-        pieChart.setTitle("Veículos por Tipo (Estoque)");
+        pieChart.setTitle("Veículos por Tipo de Combustível");
 
-        // Usa o 'core' que veio do parâmetro
         IDataProvider provider = core.getDataProvider();
+        Map<String, Integer> fuelCount = new HashMap<>();
 
         try {
+            // Varre todos os tipos para pegar todos os veículos (idealmente teria um método getAllVehicles no provider)
             for (Vehicle.VehicleType tipo : Vehicle.VehicleType.values()) {
                 List<Vehicle> lista = provider.getVehiclesByType(tipo);
-                if (lista != null && !lista.isEmpty()) {
-                    pieChart.getData().add(new PieChart.Data(tipo.name(), lista.size()));
+                for (Vehicle v : lista) {
+                    String fuel = v.getFuelType();
+                    fuelCount.put(fuel, fuelCount.getOrDefault(fuel, 0) + 1);
                 }
             }
+
+            for (Map.Entry<String, Integer> entry : fuelCount.entrySet()) {
+                pieChart.getData().add(new PieChart.Data(entry.getKey(), entry.getValue()));
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Tab tab = new Tab("Relatório (Gráfico)", pieChart);
-        // Usa o 'core' que veio do parâmetro
+        Tab tab = new Tab("Relatório Combustível", pieChart);
         core.getUIController().addTab(tab);
 
         return true;
