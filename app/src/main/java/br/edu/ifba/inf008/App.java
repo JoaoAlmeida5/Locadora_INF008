@@ -52,7 +52,7 @@ public class App extends Application {
         });
 
         try {
-            cmbCustomers.getItems().addAll(dataProvider.getAllClients());
+            cmbCustomers.getItems().addAll(dataProvider.getAllClients()); // Use getAllClients corrigido
         } catch (Exception ex) { ex.printStackTrace(); }
 
         Label lblTipo = new Label("Tipo de Veículo:");
@@ -104,8 +104,8 @@ public class App extends Application {
         DatePicker dtStart = new DatePicker();
         DatePicker dtEnd = new DatePicker();
         TextField txtPickup = new TextField();
-        TextField txtDailyRate = new TextField();
-        TextField txtInsurance = new TextField();
+        TextField txtDailyRate = new TextField(); // Usuário informa, conforme regra
+        TextField txtInsurance = new TextField(); // Usuário informa, conforme regra
 
         gridInputs.addRow(0, new Label("Início:"), dtStart, new Label("Fim:"), dtEnd);
         gridInputs.addRow(1, new Label("Retirada:"), txtPickup);
@@ -137,8 +137,7 @@ public class App extends Application {
 
                     BigDecimal valorFinal;
                     if (plugin != null) {
-                        // Passamos o veículo (com taxas) e a diária informada pelo usuário
-                        double preco = plugin.calculatePrice(userRate, (int) days);
+                        double preco = plugin.calculatePrice(veiculo, userRate, (int) days);
                         valorFinal = BigDecimal.valueOf(preco + insurance); // Soma seguro aqui ou dentro do plugin? Spec diz "Valor total = ... + taxas". Seguro é separado na UI, vamos somar no final.
                     } else {
                         valorFinal = BigDecimal.valueOf((userRate * days) + insurance);

@@ -1,16 +1,23 @@
 package br.edu.ifba.inf008.plugins.vehicle;
 
 import br.edu.ifba.inf008.interfaces.IVehiclePlugin;
+import br.edu.ifba.inf008.model.Vehicle;
+import java.util.Map;
 
 public class EconomyPlugin implements IVehiclePlugin {
+    @Override
+    public String getType() { return "ECONOMY"; }
 
     @Override
-    public String getType() {
-        return "ECONOMY";
-    }
+    public double calculatePrice(Vehicle vehicle, double dailyRate, int days) {
+        double total = dailyRate * days;
 
-    @Override
-    public double calculatePrice(double basePrice, int days) {
-        return basePrice * days;
+        Map<String, Double> fees = vehicle.getAdditionalFees();
+        for (Map.Entry<String, Double> entry : fees.entrySet()) {
+            if (entry.getKey().endsWith("_fee")) {
+                total += entry.getValue();
+            }
+        }
+        return total;
     }
 }
