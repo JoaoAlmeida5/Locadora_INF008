@@ -10,10 +10,8 @@ public class Rental {
     private LocalDateTime endDate;
     private double totalPrice;
 
-    // Construtor vazio
     public Rental() {}
 
-    // Construtor completo
     public Rental(Customer customer, Vehicle vehicle, LocalDateTime start, LocalDateTime end) {
         this.customer = customer;
         this.vehicle = vehicle;
@@ -21,7 +19,6 @@ public class Rental {
         this.endDate = end;
     }
 
-    // Getters e Setters
     public Customer getCustomer() { return customer; }
     public void setCustomer(Customer customer) { this.customer = customer; }
 
@@ -35,10 +32,8 @@ public class Rental {
     public void setEndDate(LocalDateTime endDate) { this.endDate = endDate; }
 
     public double getTotalPrice() { return totalPrice; }
-    // Importante: App.java usa setTotalValue, mantivemos para compatibilidade
     public void setTotalValue(double totalPrice) { this.totalPrice = totalPrice; }
 
-    // Auxiliar para calcular dias (usado pelos Plugins)
     public long getDays() {
         if (startDate == null || endDate == null) return 0;
         long days = ChronoUnit.DAYS.between(startDate, endDate);

@@ -1,9 +1,0 @@
-br.edu.ifba.inf008.plugins.MyPlugin
-br.edu.ifba.inf008.plugins.FuelReportPlugin
-br.edu.ifba.inf008.plugins.vehicle.EconomyPlugin
-br.edu.ifba.inf008.plugins.vehicle.SUVPlugin
-br.edu.ifba.inf008.plugins.vehicle.LuxuryPlugin
-br.edu.ifba.inf008.plugins.vehicle.CompactPlugin
-br.edu.ifba.inf008.plugins.vehicle.VanPlugin
-br.edu.ifba.inf008.plugins.vehicle.ElectricPlugin
-br.edu.ifba.inf008.plugins.RentalHistoryPlugin

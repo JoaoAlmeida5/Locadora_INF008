@@ -7,12 +7,12 @@ import javafx.scene.control.TabPane;
 
 public class Core extends ICore {
 
-    private MariaDBDataProvider dataProvider; // Tipo específico para ter acesso aos métodos extras
+    private MariaDBDataProvider dataProvider;
     private IUIController uiController;
     private IPluginController pluginController;
 
     public Core(TabPane tabPane, MenuBar menuBar) {
-        instance = this; // Define a instância estática do pai
+        instance = this;
 
         this.dataProvider = new MariaDBDataProvider();
         this.uiController = new UIController(tabPane, menuBar);

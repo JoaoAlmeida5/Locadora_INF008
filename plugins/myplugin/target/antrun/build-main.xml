@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="maven-antrun-" default="main">
-  <target name="main">
-    <mkdir dir="C:\Users\João\Desktop\Locadora_Veiculos_Full-main\plugins\myplugin/../../plugins" />
-    <copy file="C:\Users\João\Desktop\Locadora_Veiculos_Full-main\plugins\myplugin\target/myplugin-1.0-SNAPSHOT.jar" tofile="C:\Users\João\Desktop\Locadora_Veiculos_Full-main\plugins\myplugin/../../plugins/myplugin-1.0-SNAPSHOT.jar" />
-  </target>
-</project>
