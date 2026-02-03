@@ -52,7 +52,7 @@ public class App extends Application {
         });
 
         try {
-            cmbCustomers.getItems().addAll(dataProvider.getAllClients()); // Use getAllClients corrigido
+            cmbCustomers.getItems().addAll(dataProvider.getAllClients());
         } catch (Exception ex) { ex.printStackTrace(); }
 
         Label lblTipo = new Label("Tipo de Veículo:");
@@ -104,8 +104,8 @@ public class App extends Application {
         DatePicker dtStart = new DatePicker();
         DatePicker dtEnd = new DatePicker();
         TextField txtPickup = new TextField();
-        TextField txtDailyRate = new TextField(); // Usuário informa, conforme regra
-        TextField txtInsurance = new TextField(); // Usuário informa, conforme regra
+        TextField txtDailyRate = new TextField();
+        TextField txtInsurance = new TextField();
 
         gridInputs.addRow(0, new Label("Início:"), dtStart, new Label("Fim:"), dtEnd);
         gridInputs.addRow(1, new Label("Retirada:"), txtPickup);

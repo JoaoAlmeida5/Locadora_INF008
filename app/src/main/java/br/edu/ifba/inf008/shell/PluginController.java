@@ -37,7 +37,7 @@ public class PluginController implements IPluginController {
             File currentDir = new File("./plugins");
             if (!currentDir.exists()) {
                 System.out.println("Pasta './plugins' não encontrada. Tentando '../plugins'...");
-                currentDir = new File("../plugins"); // Sobe um nível para achar a raiz
+                currentDir = new File("../plugins");
             }
 
             System.out.println("1. Pasta plugins: " + currentDir.getAbsolutePath());

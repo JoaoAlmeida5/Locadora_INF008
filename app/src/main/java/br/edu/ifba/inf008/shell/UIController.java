@@ -14,7 +14,6 @@ public class UIController implements IUIController {
     private final TabPane tabPane;
     private final MenuBar menuBar;
 
-    // Construtor recebe os elementos da tela principal (criados no App.java)
     public UIController(TabPane tabPane, MenuBar menuBar) {
         this.tabPane = tabPane;
         this.menuBar = menuBar;
@@ -24,8 +23,6 @@ public class UIController implements IUIController {
     public static UIController getInstance() {
         return instance;
     }
-
-    // --- Implementação da Interface IUIController ---
 
     @Override
     public boolean addTab(Tab tab) {
@@ -40,27 +37,22 @@ public class UIController implements IUIController {
     public boolean addMenuItem(String menuName, MenuItem menuItem) {
         if (menuBar == null) return false;
 
-        // 1. Tenta encontrar o menu existente
         Menu targetMenu = null;
         for (Menu menu : menuBar.getMenus()) {
-            if (menu.getText().equals(menuName)) { // Importante: usar .equals para Strings
+            if (menu.getText().equals(menuName)) {
                 targetMenu = menu;
                 break;
             }
         }
 
-        // 2. Se não existir, cria um novo
         if (targetMenu == null) {
             targetMenu = new Menu(menuName);
             menuBar.getMenus().add(targetMenu);
         }
 
-        // 3. Adiciona o item ao menu
         targetMenu.getItems().add(menuItem);
         return true;
     }
-
-    // --- Métodos Utilitários (Opcionais, mas úteis para uso interno) ---
 
     public boolean createTab(String tabText, Node contents) {
         Tab tab = new Tab(tabText);

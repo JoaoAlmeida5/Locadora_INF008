@@ -23,7 +23,6 @@ public class FuelReportPlugin implements IPlugin {
         Map<String, Integer> fuelCount = new HashMap<>();
 
         try {
-            // Varre todos os tipos para pegar todos os veículos (idealmente teria um método getAllVehicles no provider)
             for (Vehicle.VehicleType tipo : Vehicle.VehicleType.values()) {
                 List<Vehicle> lista = provider.getVehiclesByType(tipo);
                 for (Vehicle v : lista) {
