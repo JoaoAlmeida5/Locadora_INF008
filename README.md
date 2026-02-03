@@ -1,3 +1,4 @@
+### Alunos:
 #### João Éverton de Almeida dos Santos
 #### Uriel Correia dos Santos
 
@@ -47,3 +48,6 @@ Caso prefira rodar diretamente pelo executável Java do Maven:
 - Navegue até o módulo app (ou kernel);
 - Localize o arquivo br.edu.ifba.inf008.Launcher;
 - Clique com o botão direito e selecione Run 'Launcher.main()';
+
+## Vídeo explicativo
+https://www.youtube.com/watch?v=rYfKLTBaKLI
